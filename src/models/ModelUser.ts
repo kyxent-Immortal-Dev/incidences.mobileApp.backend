@@ -5,19 +5,19 @@ import { User } from "../interfaces/User.interface";
 
 const SchemaUser = new Schema<User>({
 
-    username : {
-        type : String,
-        required : true
-    },
-
-    email : {
-        type : String,
+    username: {
+        type: String,
         required: true
     },
 
-    password : {
-        type : String,
-        required : true
+    email: {
+        type: String,
+        required: true
+    },
+
+    password: {
+        type: String,
+        required: true
     }
 
 })

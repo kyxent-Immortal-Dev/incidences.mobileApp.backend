@@ -24,14 +24,15 @@ const handleLogin = async (data: Partial<User>): Promise<Partial<User> | string>
 };
 
 
-export const LoginController = async (req: Request, res: Response) => {
+export const LoginController = async (req: Request, res: Response): Promise<void> => {
     const { email, password } = req.body;
 
     try {
         const response = await handleLogin({ email, password });
 
         if (typeof response === "string") {
-            return res.status(400).json({ msj: response });
+            res.status(400).json({ msj: response });
+            return
         }
 
         const token = protectedToken(response);
@@ -50,17 +51,17 @@ export const LoginController = async (req: Request, res: Response) => {
 
 
 
-const handleRegister = async(data : Partial<User>):Promise<Partial<User>> => {
+const handleRegister = async (data: Partial<User>): Promise<Partial<User>> => {
 
     try {
-        
+
         const register = await ModelUser.create(data)
 
         return register
 
     } catch (error) {
         throw new Error(`${error}`);
-        
+
     }
 }
 
@@ -80,7 +81,7 @@ export const registerController = async (req: Request, res: Response) => {
 
         const { password: _, ...userWithoutPassword } = response;
 
-        const token = protectedToken(userWithoutPassword); 
+        const token = protectedToken(userWithoutPassword);
 
         res.status(201).json({
             msj: "Cuenta creada exitosamente",
